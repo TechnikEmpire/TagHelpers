@@ -29,11 +29,8 @@ namespace LazZiya.TagHelpers
 
         /// <summary>
         /// <para>ViewContext property is not required any more to be passed as parameter, you can remove it from the code.</para>
-        /// <para>The public access modifier will be replaced by private in an upcoming version.</para>
         /// <para>View context is required to access TempData dictionary that contains the alerts coming from backend</para>
         /// </summary>
-        [Obsolete("ViewContext property is not required any more to be passed as parameter, you can remove it from the code. " +
-            "The public access modifier will be replaced by private in an upcoming version.")]
         [ViewContext]
         public ViewContext ViewContext { get; set; } = null;
 

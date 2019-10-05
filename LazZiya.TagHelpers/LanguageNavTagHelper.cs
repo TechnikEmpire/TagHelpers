@@ -8,12 +8,9 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-
-#if NETCOREAPP2_2 || NETCOREAPP3_0
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-#endif
 
 namespace LazZiya.TagHelpers
 {
@@ -55,11 +52,8 @@ namespace LazZiya.TagHelpers
 
         /// <summary>
         /// <para>ViewContext property is not required any more to be passed as parameter, you can remove it from the code.</para>
-        /// <para>The public access modifier will be replaced by private in an upcoming version.</para>
         /// <para>current view context to access RouteData.Values and Request.Query collection</para>
         /// </summary>
-        [Obsolete("ViewContext property is not required any more to be passed as parameter, you can remove it from the code. " +
-            "The public access modifier will be replaced by private in an upcoming version.")]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
 
@@ -75,7 +69,7 @@ namespace LazZiya.TagHelpers
         private readonly ILogger _logger;
         
         
-#if NETCOREAPP2_2 || NETCOREAPP3_0
+
         private readonly IOptions<MvcOptions> _mvcOps;
         private readonly LinkGenerator _lg;
 
@@ -93,18 +87,7 @@ namespace LazZiya.TagHelpers
             _lg = lg;
             _mvcOps = mvcOps;
         }
-#else
-        /// <summary>
-        /// creates a language navigation menu, depends on supported cultures
-        /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="ops"></param>
-        public LanguageNavTagHelper(ILogger<LanguageNavTagHelper> logger, IOptions<RequestLocalizationOptions> ops)
-        {
-            _logger = logger;
-            _ops = ops;
-        }
-#endif
+
         /// <summary>
         /// start creating the language navigation dropdown
         /// </summary>
@@ -216,21 +199,13 @@ namespace LazZiya.TagHelpers
 
                 string url;
 
-#if NETCOREAPP2_2
-                // DotNetCore 2.2 uses EndPointRouting, 
-                // so we need to use the link generator to generate url
-                url = _lg.GetPathByRouteValues(httpContext: ViewContext.HttpContext, "", _routeData);
-#elif NETCOREAPP3_0
                 // DotNetCore 3.0 has optional value to use EndPointRouting
                 // First check if EndPointRouting is enabled
                 // Or use generic urlHelper to generate url
                 url = _mvcOps.Value.EnableEndpointRouting
                     ? _lg.GetPathByRouteValues(httpContext: ViewContext.HttpContext, "", _routeData)
                     : urlHelper.RouteUrl(urlRoute);
-#else
-                // DotNetCore versions before 2.2 uses generic url herlper
-                url = urlHelper.RouteUrl(urlRoute);
-#endif
+
                 var label = GetLanguageLabel(cul);
                 dic.Add(new LanguageItem { Name = cul.Name, DisplayText = label, Url = url });
             }

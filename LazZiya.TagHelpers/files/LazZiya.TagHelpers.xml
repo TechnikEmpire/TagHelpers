@@ -410,12 +410,14 @@
             required for listing supported cultures
             </summary>
         </member>
-        <member name="M:LazZiya.TagHelpers.LanguageNavTagHelper.#ctor(Microsoft.Extensions.Logging.ILogger{LazZiya.TagHelpers.LanguageNavTagHelper},Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Builder.RequestLocalizationOptions})">
+        <member name="M:LazZiya.TagHelpers.LanguageNavTagHelper.#ctor(Microsoft.Extensions.Logging.ILogger{LazZiya.TagHelpers.LanguageNavTagHelper},Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Builder.RequestLocalizationOptions},Microsoft.AspNetCore.Routing.LinkGenerator,Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Mvc.MvcOptions})">
             <summary>
             creates a language navigation menu, depends on supported cultures
             </summary>
             <param name="logger"></param>
-            <param name="ops"></param>
+            <param name="ops">Request localization options</param>
+            <param name="lg">link generator</param>
+            <param name="mvcOps">MvcOptions</param>
         </member>
         <member name="M:LazZiya.TagHelpers.LanguageNavTagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
             <summary>
